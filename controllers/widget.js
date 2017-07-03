@@ -12,8 +12,6 @@
  * win.add(fa);
  */
 
-
-
 // --------------------------------------------
 //
 // Public Properties (AKA "Members")
@@ -36,7 +34,7 @@
  * @example $.fa.debugMode = true;
  *
  */
-exports.debugMode;
+exports.debugMode
 
 /**
  * @name icons
@@ -65,7 +63,7 @@ exports.debugMode;
  *  <Widget id = "fa" src = "com.mattmcfarland.fontawesome" icons = "require('glyphicons')" />
  *
  */
-exports.icons;
+exports.icons
 
 /**
  * @name iconPrefex
@@ -94,7 +92,7 @@ exports.icons;
  *  <Label icon = "gylph-star"/>
  *
  */
-exports.iconPrefix;
+exports.iconPrefix
 
 /**
  * @name instaParse
@@ -131,7 +129,7 @@ exports.iconPrefix;
  *	// Ok, Now Parse!
  *	$.fa.refresh()
  */
-exports.instaParse;
+exports.instaParse
 
 // --------------------------------------------
 //
@@ -154,8 +152,8 @@ exports.instaParse;
  *
  * @example $.fa.add(MyLabel,"fa-star")
  */
-exports.add = function(el,icon) {
-	createIcon(el,icon);
+exports.add = function(el, icon) {
+    createIcon(el, icon);
 };
 
 /**
@@ -176,9 +174,8 @@ exports.add = function(el,icon) {
  *
  */
 exports.remove = function(el) {
-	destroyIcon(el);
+    destroyIcon(el);
 };
-
 
 /**
  * @public
@@ -197,8 +194,8 @@ exports.remove = function(el) {
  *
  * @example $.fa.change(MyLabel, "fa-flag")
  */
-exports.change = function(el,icon) {
-	changeIcon(el,icon);
+exports.change = function(el, icon) {
+    changeIcon(el, icon);
 };
 
 /**
@@ -218,7 +215,9 @@ exports.change = function(el,icon) {
  *
  * @example $.fa.refresh();
  */
-exports.refresh = function(){applyIcons();};
+exports.refresh = function() {
+    applyIcons();
+};
 
 // --------------------------------------------
 //
@@ -237,27 +236,29 @@ function applyIcons() {
 
         // Iterate tags
         if (children) {
-            children.forEach(function (tag) {
+            children.forEach(function(tag) {
 
                 // Debugging stuff
                 counter++;
-                if (debugMode) Ti.API.debug('['+counter+'] ('+tag['id']+')  Checking for icon attribute');
+                if (debugMode)
+                    Ti.API.debug('[' + counter + '] (' + tag['id'] + ')  Checking for icon attribute');
                 //.../Debugging stuff
                 // Add or change Icon if user changes the ['icon'] property.
-
 
                 // If current tag has an icon property
                 if (tag['icon']) {
                     var iconChar = icons.charMap[tag['icon']];
 
-                    if (debugMode) Ti.API.debug('['+counter+'] ('+tag['id']+')  icon attribute found. value is "'+tag['icon']+'"');
+                    if (debugMode)
+                        Ti.API.debug('[' + counter + '] (' + tag['id'] + ')  icon attribute found. value is "' + tag['icon'] + '"');
 
                     //Only handle icons that use 'fa-' prefix
                     if (tag['icon'].substring(0, 3) === "fa-") {
 
-                        if (debugMode) Ti.API.debug('['+counter+'] ('+tag['id']+')  fa- prefix found');
+                        if (debugMode)
+                            Ti.API.debug('[' + counter + '] (' + tag['id'] + ')  fa- prefix found');
 
-                        addIcon(tag,iconChar);
+                        addIcon(tag, iconChar);
                     }
                 }
                 // think about the children!
@@ -265,6 +266,7 @@ function applyIcons() {
             });
         }
     }
+
     // initial call, wrap in an array
     updateIcons([__parentSymbol]);
 }
@@ -277,9 +279,12 @@ function applyIcons() {
  * @param {Ti.UI.View} tag - view element to remove..
  */
 function removeIcon(tag) {
-	if (tag.icon) tag.icon = '';
-	if (tag.text) tag.text = removeChars(tag.text);
-	if (tag.title) tag.title = removeChars(tag.title);
+    if (tag.icon)
+        tag.icon = '';
+    if (tag.text)
+        tag.text = removeChars(tag.text);
+    if (tag.title)
+        tag.title = removeChars(tag.title);
 }
 
 /**
@@ -292,7 +297,7 @@ function removeIcon(tag) {
  * @returns {String} new string without special characters.
  */
 function removeChars(string) {
-	return string.replace(/[^\w\s]/gi, '');
+    return string.replace(/[^\w\s]/gi, '');
 }
 
 /**
@@ -307,14 +312,16 @@ function removeChars(string) {
 function addIcon(tag, iconChar) {
 
     // Set title/text caches to hold icon character.
-    var aText    = iconChar;
-    var aTitle   = iconChar;
-    var fSize    = icons.defaultSize;
+    var aText = iconChar;
+    var aTitle = iconChar;
+    var fSize = icons.defaultSize;
     var position = 'prepend';
 
     // Debugging stuff
-    if (debugMode) Ti.API.debug('['+counter+'] aText = "'+aText+'"');
-    if (debugMode) Ti.API.debug('['+counter+'] aTitle = "'+aTitle+'"');
+    if (debugMode)
+        Ti.API.debug('[' + counter + '] aText = "' + aText + '"');
+    if (debugMode)
+        Ti.API.debug('[' + counter + '] aTitle = "' + aTitle + '"');
 
     // Preserve existing font size, if it is configured.
     if (tag['font']) {
@@ -336,24 +343,27 @@ function addIcon(tag, iconChar) {
     if (position == 'append') {
         // We "append" the icon to the text if text and title properties exist
         // by appending original text/title to new text/title that only has icon char.
-        if (tag['text']) aText   = tag['text']  + ' ' + aText;
-        if (tag['title']) aTitle = tag['title'] + ' ' + aTitle;
-    }
-    else {
+        if (tag['text'])
+            aText = tag['text'] + ' ' + aText;
+        if (tag['title'])
+            aTitle = tag['title'] + ' ' + aTitle;
+    } else {
         // By default we always "prepend" the icon if text and title properties exist
         // by prepending original text/title to new text/title that only has icon char.
-        if (tag['text']) aText   += ' ' + tag['text'];
-        if (tag['title']) aTitle += ' ' + tag['title'];
+        if (tag['text'])
+            aText += ' ' + tag['text'];
+        if (tag['title'])
+            aTitle += ' ' + tag['title'];
     }
 
     // Configure new properties
     var props = {
-        font: {
-            fontFamily: icons.fontFamily,
-            fontSize: fSize,
+        font : {
+            fontFamily : icons.fontFamily,
+            fontSize : fSize,
         },
-        text: aText,
-        title: aTitle,
+        text : aText,
+        title : aTitle,
     };
 
     // Apply properties
@@ -363,7 +373,7 @@ function addIcon(tag, iconChar) {
     if (debugMode) {
         Ti.API.debug(tag.getFont()['fontFamily']);
         for (var p in tag) {
-            Ti.API.debug('['+counter+'] ('+tag['id']+') {'+p+'} value is "'+tag[p]+'"');
+            Ti.API.debug('[' + counter + '] (' + tag['id'] + ') {' + p + '} value is "' + tag[p] + '"');
         }
     }
 
@@ -378,12 +388,11 @@ function addIcon(tag, iconChar) {
  * @param {Ti.UI.View} el - Create and Prepend To Target Element (label, button, view, etc)
  * @param {String} iconName - font-awesome icon string (ie: fa-flag)
  */
-function createIcon(el,iconName) {
-	el.icon=iconName;
-	var iconSyl = icons.charMap[el['icon']];
-	addIcon(el,iconSyl);
+function createIcon(el, iconName) {
+    el.icon = iconName;
+    var iconSyl = icons.charMap[el['icon']];
+    addIcon(el, iconSyl);
 }
-
 
 /**
  * @private
@@ -397,16 +406,15 @@ function destroyIcon(el) {
     removeIcon(el);
 }
 
-
 /**
  * @private
  *
  * @param {Ti.UI.View} el - Remove & Replace Icon
  * @param {String} iconName - New Icon string.
  */
-function changeIcon(el,iconName) {
+function changeIcon(el, iconName) {
     removeIcon(el);
-	createIcon(el,iconName);
+    createIcon(el, iconName);
 }
 
 // --------------------------------------------
@@ -415,21 +423,38 @@ function changeIcon(el,iconName) {
 // ============================================
 
 var args = arguments[0] || {};
-var iconPrefix; var debugMode; var icons; var instaParse; var counter=0;
+var iconPrefix;
+var debugMode;
+var icons;
+var instaParse;
+var counter = 0;
 
 // Set any initial arguments passed when first created. (fallback on exports)
-typeof args.icons		=== 'undefined' ? icons 		= exports.icons		 : icons 		= args.icons;
-typeof args.debugMode 	=== 'undefined' ? debugMode 	= exports.debugMode	 : debugMode 	= args.debugMode;
-typeof args.iconPrefix 	=== 'undefined' ? iconPrefix 	= exports.iconPrefix : iconPrefix 	= args.iconPrefix;
-typeof args.instaParse 	=== 'undefined' ? instaParse 	= exports.instaParse : instaParse 	= args.instaParse;
+typeof args.icons === 'undefined' ? icons = exports.icons : icons = args.icons;
+typeof args.debugMode === 'undefined' ? debugMode = exports.debugMode : debugMode = args.debugMode;
+typeof args.iconPrefix === 'undefined' ? iconPrefix = exports.iconPrefix : iconPrefix = args.iconPrefix;
+typeof args.instaParse === 'undefined' ? instaParse = exports.instaParse : instaParse = args.instaParse;
 
 // Prefix Fallback to icons object if nothing declared here.
-if (typeof icons 		=== 'undefined') { icons = require(WPATH('icons')); }
-if (typeof iconPrefix   === 'undefined') { iconPrefix = icons.prefix; }
-if (typeof iconPrefix 	=== 'undefined') { iconPrefix = 'fa-'; }
-if (typeof debugMode 	=== 'undefined') { debugMode = false; }
-if (typeof instaParse 	=== 'undefined') { instaParse = true; }
+if ( typeof icons === 'undefined') {
+    icons = require(WPATH('icons'));
+}
+if ( typeof iconPrefix === 'undefined') {
+    iconPrefix = icons.prefix;
+}
+if ( typeof iconPrefix === 'undefined') {
+    iconPrefix = 'fa-';
+}
+if ( typeof debugMode === 'undefined') {
+    debugMode = false;
+}
+if ( typeof instaParse === 'undefined') {
+    instaParse = true;
+}
 
 // Start
-if (debugMode) Ti.API.debug('Font Awesome widget.js is active');
-if (instaParse) { applyIcons(); }
+if (debugMode)
+    Ti.API.debug('Font Awesome widget.js is active');
+if (instaParse) {
+    applyIcons();
+}
