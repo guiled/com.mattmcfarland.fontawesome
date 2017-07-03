@@ -61,6 +61,18 @@ That's it. You simply add your Icons in a very similar way we do it with HTML 5.
 <Label icon="fa-glass"></Label>
 ```
 
+An other way to create a single Label with FontAwesome is to use the `ns` parameter like following
+
+```xml
+<Alloy>
+    <Window title="Tab 1">
+        <Label ns="require('com.mattmcfarland.fontawesome')" icon="fa-car">I am Window 1</Label>
+    </Window>
+</Alloy>
+```
+
+That will create a label with the specified icon.
+
 ### Titanium
 
 ```js

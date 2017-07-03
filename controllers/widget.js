@@ -219,6 +219,31 @@ exports.refresh = function() {
     applyIcons();
 };
 
+/**
+ * @public
+ * @method
+ * @name createLabel
+ * @memberOf Widget#
+ *
+ * @summary Create a Label with an icon
+ *
+ * @desc
+ * Method used a an namespaced Label with Alloy
+ *
+ *
+ *
+ * @example <Label ns="require('com.mattmcfarland.fontawesome')" icon="fa-search" text="Search" />
+ */
+exports.createLabel = function(properties) {
+    var label = Ti.UI.createLabel(properties);
+
+    if ( typeof properties.icon !== 'undefined') {
+        createIcon(label, properties.icon);
+    }
+
+    return label;
+};
+
 // --------------------------------------------
 //
 // Private Methods
